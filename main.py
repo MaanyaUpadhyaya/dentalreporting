@@ -61,11 +61,11 @@ image.save("result.jpg")
         
 images = imageprocess.find_panoramic_view_image(selected_folder)
 
-images.save("panaroma.jpg")
 
-images = imageprocess.find_panoramic_view_image(selected_folder)
-
-images.save("panaroma.jpg")
+if images != None:
+    images.save("panaroma.jpg")    
+else:
+    print("No panaromic image was found! Image not inserted!")
 
 template_file = 'report_template.docx' 
          
