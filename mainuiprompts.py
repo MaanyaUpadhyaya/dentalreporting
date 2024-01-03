@@ -29,7 +29,7 @@ def prompt_patient_folder():
         else:
             return selected_folder
 
-def prompt_region_number():
+'''def prompt_region_number():
     while True:
         region_number = input("Region number: ")
         if dentalreport.validate_region_number(region_number):
@@ -38,7 +38,40 @@ def prompt_region_number():
             print("Invalid region number. Please enter a valid FDI teeth number (11-48).")
             image_path = 'pic4.png'
             img = Image.open(image_path)
-            img.show()
+            img.show()'''
+
+def region_table_prompts():
+        print("\nMenu:")
+        print("1. Enter a specific region number and view the table")
+        print("2. View tables for a range of region numbers")
+        print("3. Exit")
+        choice = input("Enter your choice (1, 2, 3): ")
+        if choice == '1':
+            region_number = input("Region number: ")
+            if dentalreport.validate_region_number(region_number):
+                return region_number
+            else:
+                print("Invalid region number. Please enter a valid FDI teeth number (11-48).")
+                image_path = 'pic4.png'
+                img = Image.open(image_path)
+                img.show()
+            #mapping = dentalreport.get_mapping(region_number)
+        elif choice == '2':
+            start_region = input("Enter the starting region number: ")
+            if dentalreport.validate_region_number(start_region):
+                    return start_region
+            else:
+                    print("Invalid region number. Please enter a valid FDI teeth number (11-48).")
+                    image_path = 'pic4.png'
+                    img = Image.open(image_path)
+                    img.show()
+            #mapping = dentalreport.get_mapping_region(start_region)
+        elif choice == '3':
+            print("Exiting the program. Goodbye!")
+            exit()
+        else:
+            print("Invalid choice. Please enter 1, 2, or 3.")
+
 
 def prompt_num_of_implants():
     implants = input("Number of implants:")

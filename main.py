@@ -28,9 +28,8 @@ if len(sys.argv) != 1:
 else:
     selected_folder = mainuiprompts.prompt_patient_folder()
     print("\nPlease enter following details:")
-    region_number = mainuiprompts.prompt_region_number()
+    region_number = mainuiprompts.region_table_prompts()
     num_of_implants = mainuiprompts.prompt_num_of_implants()
-
 
 ds, attributes = dentalreport.get_dcm_attriutes(selected_folder)
 
@@ -40,6 +39,7 @@ pixels = int(pixel_spacing[1] * 1000)
 quadrant, region_name = dentalreport.get_quadrant_and_region(region_number)
 print(f"\nThe selected tooth is in the Quadrant: {quadrant} Region: {region_name}")
 
+
 attributes['RegionName'] = region_name
 attributes['date_now'] = dentalreport.get_current_date()
 attributes['PatientAge'] = dentalreport.find_patient_age(attributes['PatientBirthDate'])
@@ -47,9 +47,13 @@ attributes['PixelSpacing'] = pixels
 
 mapping = dentalreport.allocate_indices(region_number)
 
-attributes = dentalreport.begin_end_mapping(attributes,mapping)
-
 attributes = dentalreport.initial_mapping(attributes,mapping)
+
+attributes = dentalreport.get_mapping(attributes, region_number)
+
+attributes = dentalreport.get_mapping_range(attributes, region_number)
+
+attributes = dentalreport.virtual_implant_table(attributes, num_of_implants)
 
 windowed_pixel_array = imageprocess.get_windowed_pixels(ds)
 
@@ -60,7 +64,6 @@ image = imageannotate.annotate(ds, image)
 image.save("result.jpg")
         
 images = imageprocess.find_panoramic_view_image(selected_folder)
-
 
 if images != None:
     images.save("panaroma.jpg")    
@@ -75,11 +78,9 @@ folder = "./reports/"
 report_filepath = os.path.join(folder, report_filename)
         
 template = DocxTemplate(template_file)
-attributes = dentalreport.addvirtual_implant_save(attributes,num_of_implants,template)
-        
+
 dentalreport.render_save_report(template,attributes, report_filepath)
 
-       
 print("\nSuccessfully generated report!!")
 print("\tAt:reports")
 print("\tAs:", report_filename)

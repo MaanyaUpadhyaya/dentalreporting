@@ -95,7 +95,6 @@ slice_mapping = {
     27: 9,
     28: 9,
 }
-
 def allocate_indices(rn):
     region_number = int(rn)
     if region_number not in slice_mapping:
@@ -103,23 +102,28 @@ def allocate_indices(rn):
     output_mapping = {}
     current_index = 1
     regions = list(slice_mapping.keys())
-    region_index = regions.index(region_number)
-    for i in range(region_index, len(regions) + region_index):
-        region = regions[i % len(regions)]
-        output_mapping[region] = (current_index, current_index + slice_mapping[region]-1)
+    start_index = regions.index(18)
+    region_index = 0
+    for i in range(region_index, min(region_index + len(regions), len(slice_mapping))):
+        region = regions[(start_index + i) % len(regions)]
+        output_mapping[region] = (current_index, current_index + slice_mapping[region] - 1)
         current_index += slice_mapping[region]
+        if region == 28:
+            break
     return output_mapping
 
-def begin_end_mapping(attributes, mapping):
-    rn_keys = list(mapping.keys())
-    n=1
-    for region_number in rn_keys:
-        current = mapping[region_number]
-        if isinstance(current, tuple):
-            attributes['region_r'+str(n)] = region_number
-            attributes['r'+str(n) + '_begin'] = str(current[0])
-            attributes['r'+str(n) + '_end'] = str(current[1])
-            n +=1
+def get_mapping_range(attributes, region_number):
+    default_mapping = allocate_indices(region_number)
+    for key, value in default_mapping.items():
+        if isinstance(region_number, int) and isinstance(key, int) and region_number <= key <= 28:
+            attributes[key] = value
+    return attributes
+
+def get_mapping(attributes, region_number):
+    default_mapping = allocate_indices(region_number)
+    region_number = int(region_number) if not isinstance(region_number, int) else region_number
+    if region_number in default_mapping:
+        region_number = default_mapping[region_number]
     return attributes
 
 def initial_mapping(attributes, mapping):
@@ -130,30 +134,11 @@ def initial_mapping(attributes, mapping):
             attributes['r'+str(region_number) + '_end'] = str(current[1])
     return attributes
 
-def addvirtual_implant_save(context, num_of_implants, tpl):
-    sd = tpl.new_subdoc()
-    cols = 1 if num_of_implants == 0 else 5 
-    table = sd.add_table(rows=1, cols=cols)
-    if num_of_implants == 0:
-        hdr_cells = table.rows[0].cells
-        hdr_cells[0].text = 'Remarks'
-        row_cells = table.add_row().cells
-        row_cells[0].text = 'No Virtual Implants found'
-    else:
-        hdr_cells = table.rows[0].cells
-        hdr_cells[0].text = 'VIRTUAL IMPLANTS'
-        hdr_cells[1].text = 'LENGTH'
-        hdr_cells[2].text = 'HEAD DIAMETER'
-        hdr_cells[3].text = 'APICAL DIAMETER'
-        hdr_cells[4].text = 'ANY REMARKS'
-        num_of_implants = int(num_of_implants)
-        for i in range(num_of_implants):
-            row_cells = table.add_row().cells
-            row_cells[0].text = f'V{i + 1}'
-            for j in range(1, 5):
-                row_cells[j].text = ''
-    context['virtual_implant_table'] = sd
-    return context
+def virtual_implant_table(attributes, num_implants):
+    virtual_implant_table = [{"V" + str(i): f"V{i}" for i in range(1, num_implants+1)}]
+    attributes = {"implants": virtual_implant_table, 
+                "num_implants": num_implants}
+    return attributes
 
 def render_save_report(template,attributes, report_filepath):
     to_fill_in = {'img_pan':'panaroma.jpg'}
@@ -162,4 +147,4 @@ def render_save_report(template,attributes, report_filepath):
         attributes[key] = image
     template.render(attributes) 
     template.save(report_filepath)
-    
+
