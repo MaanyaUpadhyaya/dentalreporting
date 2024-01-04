@@ -102,28 +102,29 @@ def allocate_indices(rn):
     output_mapping = {}
     current_index = 1
     regions = list(slice_mapping.keys())
-    start_index = regions.index(18)
     region_index = 0
-    for i in range(region_index, min(region_index + len(regions), len(slice_mapping))):
-        region = regions[(start_index + i) % len(regions)]
+    for i in range(region_index, len(slice_mapping)):
+        region = regions[i]
         output_mapping[region] = (current_index, current_index + slice_mapping[region] - 1)
         current_index += slice_mapping[region]
-        if region == 28:
-            break
     return output_mapping
 
 def get_mapping_range(attributes, region_number):
+    n = 1
     default_mapping = allocate_indices(region_number)
-    for key, value in default_mapping.items():
-        if isinstance(region_number, int) and isinstance(key, int) and region_number <= key <= 28:
-            attributes[key] = value
+    regions = list(default_mapping.keys())
+    start_index = regions.index(int(region_number))
+    for i in range(start_index,len(regions)) :
+            region  = regions[i]
+            attributes = begin_end_mapping(attributes,n,region,default_mapping)
+            n = n+1
     return attributes
 
-def get_mapping(attributes, region_number):
+def get_mapping_single(attributes, region_number):
     default_mapping = allocate_indices(region_number)
     region_number = int(region_number) if not isinstance(region_number, int) else region_number
     if region_number in default_mapping:
-        region_number = default_mapping[region_number]
+        attributes = begin_end_mapping(attributes,1,region_number,default_mapping)
     return attributes
 
 def initial_mapping(attributes, mapping):
@@ -134,10 +135,18 @@ def initial_mapping(attributes, mapping):
             attributes['r'+str(region_number) + '_end'] = str(current[1])
     return attributes
 
+def begin_end_mapping(attributes, n, region_number,mapping):
+    current = mapping[region_number]
+    if isinstance(current, tuple):
+        attributes['region_r'+str(n)] = region_number
+        attributes['r'+str(n) + '_begin'] = str(current[0])
+        attributes['r'+str(n) + '_end'] = str(current[1])
+    return attributes
+
 def virtual_implant_table(attributes, num_implants):
     virtual_implant_table = [{"V" + str(i): f"V{i}" for i in range(1, num_implants+1)}]
-    attributes = {"implants": virtual_implant_table, 
-                "num_implants": num_implants}
+    attributes['implants'] = virtual_implant_table
+    attributes['num_implants'] = num_implants
     return attributes
 
 def render_save_report(template,attributes, report_filepath):

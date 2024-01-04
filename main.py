@@ -21,6 +21,8 @@ if len(sys.argv) != 1:
     region_number = args.region_number
     num_of_implants = args.num_of_implants
 
+    is_single = False
+
     print(f'Selected Folder: {selected_folder}')
     print(f'Region Number: {region_number}')
     print(f'Number of Implants: {num_of_implants}')
@@ -28,7 +30,7 @@ if len(sys.argv) != 1:
 else:
     selected_folder = mainuiprompts.prompt_patient_folder()
     print("\nPlease enter following details:")
-    region_number = mainuiprompts.region_table_prompts()
+    region_number, is_single = mainuiprompts.region_table_prompts()
     num_of_implants = mainuiprompts.prompt_num_of_implants()
 
 ds, attributes = dentalreport.get_dcm_attriutes(selected_folder)
@@ -48,10 +50,13 @@ attributes['PixelSpacing'] = pixels
 mapping = dentalreport.allocate_indices(region_number)
 
 attributes = dentalreport.initial_mapping(attributes,mapping)
+if is_single :
 
-attributes = dentalreport.get_mapping(attributes, region_number)
+    attributes = dentalreport.get_mapping_single(attributes, region_number)
+else:
 
-attributes = dentalreport.get_mapping_range(attributes, region_number)
+    attributes = dentalreport.get_mapping_range(attributes, region_number)
+
 
 attributes = dentalreport.virtual_implant_table(attributes, num_of_implants)
 
