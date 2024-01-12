@@ -29,17 +29,6 @@ def prompt_patient_folder():
         else:
             return selected_folder
 
-'''def prompt_region_number():
-    while True:
-        region_number = input("Region number: ")
-        if dentalreport.validate_region_number(region_number):
-            return region_number
-        else:
-            print("Invalid region number. Please enter a valid FDI teeth number (11-48).")
-            image_path = 'pic4.png'
-            img = Image.open(image_path)
-            img.show()'''
-
 def region_table_prompts():
         print("\nMenu:")
         print("1. Select a single region number")
@@ -49,7 +38,7 @@ def region_table_prompts():
         if choice == '1':
             region_number = input("Enter the region number: ")
             if dentalreport.validate_region_number(region_number):
-                return region_number, True
+                return region_number,0, True
             else:
                 print("Invalid region number. Please enter a valid FDI teeth number (11-48).")
                 image_path = 'pic4.png'
@@ -57,8 +46,9 @@ def region_table_prompts():
                 img.show()
         elif choice == '2':
             start_region = input("Enter the starting region number: ")
-            if dentalreport.validate_region_number(start_region):
-                    return start_region, False
+            end_region = input("Enter the ending region number: ")
+            if dentalreport.validate_region_number(start_region) and dentalreport.validate_region_number(end_region):
+                    return start_region, end_region, False
             else:
                     print("Invalid region number. Please enter a valid FDI teeth number (11-48).")
                     image_path = 'pic4.png'

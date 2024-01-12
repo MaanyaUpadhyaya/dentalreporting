@@ -30,7 +30,7 @@ if len(sys.argv) != 1:
 else:
     selected_folder = mainuiprompts.prompt_patient_folder()
     print("\nPlease enter following details:")
-    region_number, is_single = mainuiprompts.region_table_prompts()
+    region_number,end_region_number ,is_single= mainuiprompts.region_table_prompts()
     num_of_implants = mainuiprompts.prompt_num_of_implants()
 
 ds, attributes = dentalreport.get_dcm_attriutes(selected_folder)
@@ -47,15 +47,15 @@ attributes['date_now'] = dentalreport.get_current_date()
 attributes['PatientAge'] = dentalreport.find_patient_age(attributes['PatientBirthDate'])
 attributes['PixelSpacing'] = pixels 
 
-mapping = dentalreport.allocate_indices(region_number)
+mapping = dentalreport.allocate_indices()
 
 attributes = dentalreport.initial_mapping(attributes,mapping)
 if is_single :
 
-    attributes = dentalreport.get_mapping_single(attributes, region_number)
+    attributes = dentalreport.get_mapping_singles(attributes, [region_number])
 else:
 
-    attributes = dentalreport.get_mapping_range(attributes, region_number)
+    attributes = dentalreport.get_mapping_range(attributes, region_number, end_region_number)
 
 
 attributes = dentalreport.virtual_implant_table(attributes, num_of_implants)
@@ -84,7 +84,7 @@ report_filepath = os.path.join(folder, report_filename)
         
 template = DocxTemplate(template_file)
 
-dentalreport.render_save_report(template,attributes, report_filepath)
+dentalreport.render_save_report(template,attributes,report_filepath)
 
 print("\nSuccessfully generated report!!")
 print("\tAt:reports")

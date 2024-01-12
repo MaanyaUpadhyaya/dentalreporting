@@ -4,6 +4,7 @@ from docxtpl import InlineImage
 from docx.shared import RGBColor
 from docxtpl import DocxTemplate
 import json
+from docx import Document
 import numpy as np
 
 from docx.shared import RGBColor
@@ -95,10 +96,7 @@ slice_mapping = {
     27: 9,
     28: 9,
 }
-def allocate_indices(rn):
-    region_number = int(rn)
-    if region_number not in slice_mapping:
-        return None 
+def allocate_indices():
     output_mapping = {}
     current_index = 1
     regions = list(slice_mapping.keys())
@@ -109,22 +107,30 @@ def allocate_indices(rn):
         current_index += slice_mapping[region]
     return output_mapping
 
-def get_mapping_range(attributes, region_number):
+def get_mapping_range(attributes,start_region_number,end_region_number):
     n = 1
-    default_mapping = allocate_indices(region_number)
+    if start_region_number and end_region_number not in slice_mapping:
+        return None
+    default_mapping = allocate_indices()
     regions = list(default_mapping.keys())
-    start_index = regions.index(int(region_number))
-    for i in range(start_index,len(regions)) :
+    start_index = regions.index(int(start_region_number))
+    end_index = regions.index(int(end_region_number))
+    for i in range(start_index,end_index+1) :
             region  = regions[i]
             attributes = begin_end_mapping(attributes,n,region,default_mapping)
             n = n+1
-    return attributes
+    return attributes 
 
-def get_mapping_single(attributes, region_number):
-    default_mapping = allocate_indices(region_number)
-    region_number = int(region_number) if not isinstance(region_number, int) else region_number
-    if region_number in default_mapping:
-        attributes = begin_end_mapping(attributes,1,region_number,default_mapping)
+def get_mapping_singles(attributes, region_numbers):
+    if region_number not in slice_mapping:
+        return None
+    default_mapping = allocate_indices()
+    i = 1
+    for rn in region_numbers:
+        region_number = int(rn)
+        if region_number in default_mapping:
+            attributes = begin_end_mapping(attributes,i,region_number,default_mapping)
+            i = i+1
     return attributes
 
 def initial_mapping(attributes, mapping):
@@ -154,6 +160,12 @@ def render_save_report(template,attributes, report_filepath):
     for key, value in to_fill_in.items():
         image = InlineImage(template, value)
         attributes[key] = image
-    template.render(attributes) 
+    template.render(attributes)
+    for table_index, table in enumerate(template.tables):
+        cell_text = table.cell(0, 0).text
+        if "REGION" in cell_text and not any(char.isdigit() for char in cell_text):
+            parent = table._element.getparent()
+            parent.remove(table._element)
     template.save(report_filepath)
+
 
