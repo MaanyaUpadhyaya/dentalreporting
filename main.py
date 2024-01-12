@@ -57,7 +57,6 @@ else:
 
     attributes = dentalreport.get_mapping_range(attributes, region_number, end_region_number)
 
-
 attributes = dentalreport.virtual_implant_table(attributes, num_of_implants)
 
 windowed_pixel_array = imageprocess.get_windowed_pixels(ds)

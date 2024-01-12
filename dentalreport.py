@@ -109,8 +109,6 @@ def allocate_indices():
 
 def get_mapping_range(attributes,start_region_number,end_region_number):
     n = 1
-    if start_region_number and end_region_number not in slice_mapping:
-        return None
     default_mapping = allocate_indices()
     regions = list(default_mapping.keys())
     start_index = regions.index(int(start_region_number))
@@ -122,15 +120,11 @@ def get_mapping_range(attributes,start_region_number,end_region_number):
     return attributes 
 
 def get_mapping_singles(attributes, region_numbers):
-    if region_number not in slice_mapping:
-        return None
     default_mapping = allocate_indices()
-    i = 1
     for rn in region_numbers:
         region_number = int(rn)
         if region_number in default_mapping:
-            attributes = begin_end_mapping(attributes,i,region_number,default_mapping)
-            i = i+1
+            attributes = begin_end_mapping(attributes,1,region_number,default_mapping)
     return attributes
 
 def initial_mapping(attributes, mapping):
