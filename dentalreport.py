@@ -12,10 +12,8 @@ import dicomreader
 
 def validate_region_number(region_number):
     valid_region_numbers = [
-        '11', '12', '13', '14', '15', '16', '17', '18',
-        '21', '22', '23', '24', '25', '26', '27', '28',
-        '31', '32', '33', '34', '35', '36', '37', '38', 
-        '41', '42', '43', '44', '45', '46', '47', '48'
+        '11', '12', '13', '14', '15', '16', '17', '18','19',
+        '21', '22', '23', '24', '25', '26', '27', '28','29'
     ]
     return region_number in valid_region_numbers
 
@@ -30,6 +28,7 @@ def get_quadrant_and_region(region_number):
         '16': 'Upper right canine',
         '17': 'Upper right lateral incisor',
         '18': 'Upper right central incisor',
+        '19': 'Right Pterigyod region',
         '21': 'Lower left third molar',
         '22': 'Lower left second molar',
         '23': 'Lower left first molar',
@@ -38,14 +37,7 @@ def get_quadrant_and_region(region_number):
         '26': 'Lower left canine',
         '27': 'Lower left lateral incisor',
         '28': 'Lower left central incisor',
-        '41': 'Lower right central incisor',
-        '42': 'Lower right lateral incisor',
-        '43': 'Lower right canine',
-        '44': 'Lower right first premolar',
-        '45': 'Lower right second premolar',
-        '46': 'Lower right first molar',
-        '47': 'Lower right second molar',
-        '48': 'Lower right third molar',
+        '29': 'Left Pterigyod region'
     }
     region_name = region_names.get(region_number, 'Null')
     return quadrant, region_name
@@ -79,6 +71,7 @@ def get_current_datetime():
     return datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
 slice_mapping = {
+    19: 5,
     18: 9,
     17: 9,
     16: 9,
@@ -95,6 +88,7 @@ slice_mapping = {
     26: 9,
     27: 9,
     28: 9,
+    29: 5
 }
 def allocate_indices():
     output_mapping = {}
