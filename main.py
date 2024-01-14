@@ -30,7 +30,7 @@ if len(sys.argv) != 1:
 else:
     selected_folder = mainuiprompts.prompt_patient_folder()
     print("\nPlease enter following details:")
-    region_number,end_region_number ,is_single= mainuiprompts.region_table_prompts()
+    region_numbers ,is_single= mainuiprompts.region_table_prompts()
     num_of_implants = mainuiprompts.prompt_num_of_implants()
 
 ds, attributes = dentalreport.get_dcm_attriutes(selected_folder)
@@ -38,9 +38,8 @@ ds, attributes = dentalreport.get_dcm_attriutes(selected_folder)
 pixel_spacing = ds.get('PixelSpacing', 'Null')
 pixels = int(pixel_spacing[1] * 1000)
 
-quadrant, region_name = dentalreport.get_quadrant_and_region(region_number)
+quadrant, region_name = dentalreport.get_quadrant_and_region(region_numbers)
 print(f"\nThe selected tooth is in the Quadrant: {quadrant} Region: {region_name}")
-
 
 attributes['RegionName'] = region_name
 attributes['date_now'] = dentalreport.get_current_date()
@@ -51,11 +50,9 @@ mapping = dentalreport.allocate_indices()
 
 attributes = dentalreport.initial_mapping(attributes,mapping)
 if is_single :
-
-    attributes = dentalreport.get_mapping_singles(attributes, [region_number])
+    attributes = dentalreport.get_mapping_singles(attributes, region_numbers)
 else:
-
-    attributes = dentalreport.get_mapping_range(attributes, region_number, end_region_number)
+    attributes = dentalreport.get_mapping_range(attributes, region_numbers[0],region_numbers[1])
 
 attributes = dentalreport.virtual_implant_table(attributes, num_of_implants)
 

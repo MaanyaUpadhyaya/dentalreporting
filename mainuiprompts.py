@@ -33,12 +33,12 @@ def region_table_prompts():
         print("\nMenu:")
         print("1. Select a single region number")
         print("2. Select a range of region numbers")
-        print("3. Exit")
+        print("3. Select multiple non-consecutive region numbers")
         choice = input("Enter your choice (1, 2, 3): ")
         if choice == '1':
             region_number = input("Enter the region number: ")
             if dentalreport.validate_region_number(region_number):
-                return region_number,0, True
+                return [region_number], True
             else:
                 print("Invalid region number. Please enter a valid FDI teeth number (11-48).")
                 image_path = 'pic4.png'
@@ -48,15 +48,28 @@ def region_table_prompts():
             start_region = input("Enter the starting region number: ")
             end_region = input("Enter the ending region number: ")
             if dentalreport.validate_region_number(start_region) and dentalreport.validate_region_number(end_region):
-                    return start_region, end_region, False
+                    return [start_region, end_region], False
             else:
                     print("Invalid region number. Please enter a valid FDI teeth number (11-48).")
                     image_path = 'pic4.png'
                     img = Image.open(image_path)
                     img.show()
         elif choice == '3':
-            print("Exiting the program. Goodbye!")
-            exit()
+            rn = input("Enter the multiple non-consecutive region numbers:")
+            region_numbers = rn.split(',')
+            region_numbers = list(filter(None, map(str.strip, region_numbers)))
+            valid_regions = True
+            for region in region_numbers:
+                if not dentalreport.validate_region_number(region):
+                    valid_regions = False
+            if valid_regions:
+                    return region_numbers,True
+            else:
+                    print("Invalid region number. Please enter a valid FDI teeth number (11-48).")
+                    image_path = 'pic4.png'
+                    img = Image.open(image_path)
+                    img.show()
+            
         else:
             print("Invalid choice. Please enter 1, 2, or 3.")
 

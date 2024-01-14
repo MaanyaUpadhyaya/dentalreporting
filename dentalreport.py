@@ -17,8 +17,11 @@ def validate_region_number(region_number):
     ]
     return region_number in valid_region_numbers
 
-def get_quadrant_and_region(region_number):
-    quadrant = int((int(region_number) - 1) / 8) + 1
+def get_quadrant_and_region(region_numbers):
+    quadrant = 'NA'
+    region_number = 'NA'
+    if len(region_numbers) == 1:
+        quadrant = int((int(region_numbers[0]) - 1) / 8) + 1
     region_names = {
         '11': 'Upper right third molar',
         '12': 'Upper right second molar',
@@ -39,7 +42,7 @@ def get_quadrant_and_region(region_number):
         '28': 'Lower left central incisor',
         '29': 'Left Pterigyod region'
     }
-    region_name = region_names.get(region_number, 'Null')
+    region_name = region_names.get(region_number, 'Dispersed Regions')
     return quadrant, region_name
 
 def get_dcm_attriutes(folder):
@@ -113,12 +116,14 @@ def get_mapping_range(attributes,start_region_number,end_region_number):
             n = n+1
     return attributes 
 
-def get_mapping_singles(attributes, region_numbers):
+def get_mapping_singles(attributes, region_number):
     default_mapping = allocate_indices()
-    for rn in region_numbers:
+    i = 1
+    for rn in region_number:
         region_number = int(rn)
         if region_number in default_mapping:
-            attributes = begin_end_mapping(attributes,1,region_number,default_mapping)
+            attributes = begin_end_mapping(attributes,i,region_number,default_mapping)
+            i = i+1
     return attributes
 
 def initial_mapping(attributes, mapping):
