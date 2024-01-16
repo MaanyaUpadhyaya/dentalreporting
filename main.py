@@ -30,7 +30,8 @@ if len(sys.argv) != 1:
 else:
     selected_folder = mainuiprompts.prompt_patient_folder()
     print("\nPlease enter following details:")
-    region_numbers ,is_single= mainuiprompts.region_table_prompts()
+    is_pterygoid = mainuiprompts.get_typeof_study()
+    region_numbers = mainuiprompts.region_table_prompts()
     num_of_implants = mainuiprompts.prompt_num_of_implants()
 
 ds, attributes = dentalreport.get_dcm_attriutes(selected_folder)
@@ -46,23 +47,12 @@ attributes['date_now'] = dentalreport.get_current_date()
 attributes['PatientAge'] = dentalreport.find_patient_age(attributes['PatientBirthDate'])
 attributes['PixelSpacing'] = pixels 
 
-mapping = dentalreport.allocate_indices()
+mapping = dentalreport.allocate_indices(is_pterygoid)
 
 attributes = dentalreport.initial_mapping(attributes,mapping)
-if is_single :
-    attributes = dentalreport.get_mapping_singles(attributes, region_numbers)
-else:
-    attributes = dentalreport.get_mapping_range(attributes, region_numbers[0],region_numbers[1])
+attributes = dentalreport.get_mapping_singles(attributes, region_numbers, is_pterygoid)
 
 attributes = dentalreport.virtual_implant_table(attributes, num_of_implants)
-
-windowed_pixel_array = imageprocess.get_windowed_pixels(ds)
-
-image = imageprocess.convert_pixel_to_image(windowed_pixel_array)
-
-image = imageannotate.annotate(ds, image)
-
-image.save("result.jpg")
         
 images = imageprocess.find_panoramic_view_image(selected_folder)
 

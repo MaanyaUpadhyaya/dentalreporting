@@ -10,14 +10,18 @@ import numpy as np
 from docx.shared import RGBColor
 import dicomreader
 
-def validate_region_number(region_number):
+def validate_region_number(region_number, is_pterygoid):
     valid_region_numbers = [
-        '11', '12', '13', '14', '15', '16', '17', '18','19',
-        '21', '22', '23', '24', '25', '26', '27', '28','29'
+        '11', '12', '13', '14', '15', '16', '17', '18',
+        '21', '22', '23', '24', '25', '26', '27', '28'
     ]
+    if(is_pterygoid):
+        print('hey its peeterygoid ante!!')
+        # insert the below two into the above mapping
+        #         '19','29'
     return region_number in valid_region_numbers
 
-def get_quadrant_and_region(region_numbers):
+def get_quadrant_and_region(region_numbers, is_pterygoid):
     quadrant = 'NA'
     region_number = 'NA'
     if len(region_numbers) == 1:
@@ -31,7 +35,6 @@ def get_quadrant_and_region(region_numbers):
         '16': 'Upper right canine',
         '17': 'Upper right lateral incisor',
         '18': 'Upper right central incisor',
-        '19': 'Right Pterigyod region',
         '21': 'Lower left third molar',
         '22': 'Lower left second molar',
         '23': 'Lower left first molar',
@@ -40,8 +43,13 @@ def get_quadrant_and_region(region_numbers):
         '26': 'Lower left canine',
         '27': 'Lower left lateral incisor',
         '28': 'Lower left central incisor',
-        '29': 'Left Pterigyod region'
     }
+    if(is_pterygoid):
+        print('hey its peeterygoid ante!!')
+        # insert the below two into the above mapping
+        #         '19': 'Right Pterigyod region',
+        # '29': 'Left Pterigyod region'
+
     region_name = region_names.get(region_number, 'Dispersed Regions')
     return quadrant, region_name
 
@@ -73,7 +81,25 @@ def get_current_date():
 def get_current_datetime():
     return datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
-slice_mapping = {
+regular_slice_mapping = {
+    18: 9,
+    17: 9,
+    16: 9,
+    15: 5,
+    14: 5,
+    13: 5,
+    12: 4,
+    11: 4,
+    21: 4,
+    22: 4,
+    23: 5,
+    24: 5,
+    25: 5,
+    26: 9,
+    27: 9,
+    28: 9,
+}
+pt_slice_mapping = {
     19: 5,
     18: 9,
     17: 9,
@@ -93,7 +119,9 @@ slice_mapping = {
     28: 9,
     29: 5
 }
-def allocate_indices():
+
+def allocate_indices(is_pt):
+    slice_mapping = pt_slice_mapping if is_pt else regular_slice_mapping
     output_mapping = {}
     current_index = 1
     regions = list(slice_mapping.keys())
@@ -104,22 +132,10 @@ def allocate_indices():
         current_index += slice_mapping[region]
     return output_mapping
 
-def get_mapping_range(attributes,start_region_number,end_region_number):
-    n = 1
-    default_mapping = allocate_indices()
-    regions = list(default_mapping.keys())
-    start_index = regions.index(int(start_region_number))
-    end_index = regions.index(int(end_region_number))
-    for i in range(start_index,end_index+1) :
-            region  = regions[i]
-            attributes = begin_end_mapping(attributes,n,region,default_mapping)
-            n = n+1
-    return attributes 
-
-def get_mapping_singles(attributes, region_number):
-    default_mapping = allocate_indices()
+def get_mapping_singles(attributes, region_numbers, is_pt):
+    default_mapping = allocate_indices(is_pt)
     i = 1
-    for rn in region_number:
+    for rn in region_numbers:
         region_number = int(rn)
         if region_number in default_mapping:
             attributes = begin_end_mapping(attributes,i,region_number,default_mapping)
