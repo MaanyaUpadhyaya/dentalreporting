@@ -4,6 +4,28 @@ import dicomreader
 import dentalreport
 from PIL import Image
 
+def parse_region_numbers(report_type, rn, is_pterygoid):
+    if report_type == 1:
+        rn = [int(rn)]
+    elif report_type == 2:
+        region_nums = [18, 17, 16, 15, 14, 13, 12, 11, 21, 22, 23, 24, 25, 26, 27, 28]
+        if is_pterygoid:
+            region_nums.insert(0, 19)
+            region_nums.insert(17, 29)
+        start_index = region_nums.index(int(rn[0]))
+        end_index = region_nums.index(int(rn[1]))
+        rn = region_nums[start_index:end_index + 1] 
+    else:
+        rn = rn.split(',')
+        rn = [int(num) for num in rn]
+    return rn
+
+def valid_choice(choice, max_choice):
+    if choice.isdigit():
+        choice = int(choice)
+        return choice in list(range(1, max_choice+1))
+    return False
+
 def select_patient_folder():
         confirm = input("\nSelect a patient folder? (yes/no): ").lower()
         if confirm == 'no' or confirm == 'n':
@@ -35,53 +57,41 @@ def get_typeof_study():
     print("2. Pterygoid study")
     choice = input("Enter your choice (1, 2): ")
     if choice != '1' and choice != '2':
-        print("Invalid choice. Please enter 1, 2, or 3.")
+        print("Invalid choice. Please enter 1 or 2")
         exit()
-    is_pterygoid = choice == 2 
+    is_pterygoid = choice == '2'
     return is_pterygoid
 
-def region_table_prompts():
-        print("\nMenu:")
-        print("1. Select a single region number")
-        print("2. Select a range of region numbers")
-        print("3. Select multiple non-consecutive region numbers")
-        choice = input("Enter your choice (1, 2, 3): ")
+def region_table_prompts(is_pterygoid):
+    print("\nMenu:")
+    print("1. Select a single region number")
+    print("2. Select a range of region numbers")
+    print("3. Select non-consecutive region numbers")
+    choice = input("Enter your choice (1, 2, 3): ")
+    choice = int(choice) if valid_choice(choice, 3) else None
+    if not choice:
+        print("Invalid choice. Please enter 1, 2, or 3.")
+        exit()
+    region_numbers = None
+    if choice == 1:
+        region_numbers = input("Enter the region number: ")
+    elif choice == 2:
+        start_region = input("Enter the starting region number: ")
+        end_region = input("Enter the ending region number: ")
+        region_numbers = [start_region, end_region]
+    else:
+        region_numbers = input("Enter the multiple non-consecutive region numbers:")
+       
+    region_numbers = parse_region_numbers(choice, region_numbers,is_pterygoid)
+    all_valid = all(dentalreport.validate_region_number(region,is_pterygoid) for region in region_numbers)
+    
+    if not all_valid:
+        print("Invalid region numbers. Please enter a valid FDI teeth number.")
         image_path = 'regionmap.png'
-
-        if choice == '1':
-            region_number = input("Enter the region number: ")
-            if dentalreport.validate_region_number(region_number):
-                return [region_number]
-            else:
-                print("Invalid region number. Please enter a valid FDI teeth number (11-48).")
-                img = Image.open(image_path)
-                img.show()
-        elif choice == '2':
-            start_region = input("Enter the starting region number: ")
-            end_region = input("Enter the ending region number: ")
-            if dentalreport.validate_region_number(start_region) and dentalreport.validate_region_number(end_region):
-                    return list(range(int(start_region), int(end_region)+1))
-            else:
-                    print("Invalid region number. Please enter a valid FDI teeth number (11-48).")
-                    img = Image.open(image_path)
-                    img.show()
-        elif choice == '3':
-            rn = input("Enter the multiple non-consecutive region numbers:")
-            region_numbers = rn.split(',')
-            region_numbers = list(filter(None, map(str.strip, region_numbers)))
-            valid_regions = True
-            for region in region_numbers:
-                if not dentalreport.validate_region_number(region):
-                    valid_regions = False
-            if valid_regions:
-                    return region_numbers
-            else:
-                    print("Invalid region number. Please enter a valid FDI teeth number (11-48).")
-                    img = Image.open(image_path)
-                    img.show()
-            
-        else:
-            print("Invalid choice. Please enter 1, 2, or 3.")
+        img = Image.open(image_path)
+        img.show()
+        exit()
+    return region_numbers
 
 
 def prompt_num_of_implants():

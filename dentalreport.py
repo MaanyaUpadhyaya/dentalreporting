@@ -15,17 +15,15 @@ def validate_region_number(region_number, is_pterygoid):
         '11', '12', '13', '14', '15', '16', '17', '18',
         '21', '22', '23', '24', '25', '26', '27', '28'
     ]
-    if(is_pterygoid):
-        print('hey its peeterygoid ante!!')
-        # insert the below two into the above mapping
-        #         '19','29'
-    return region_number in valid_region_numbers
-
+    if is_pterygoid:
+        valid_region_numbers.extend(['19','29'])
+    return valid_region_numbers
 def get_quadrant_and_region(region_numbers, is_pterygoid):
     quadrant = 'NA'
     region_number = 'NA'
     if len(region_numbers) == 1:
-        quadrant = int((int(region_numbers[0]) - 1) / 8) + 1
+            quadrant = int((int(region_numbers[0]) - 1) / 8) + 1
+            print(quadrant)
     region_names = {
         '11': 'Upper right third molar',
         '12': 'Upper right second molar',
@@ -44,12 +42,10 @@ def get_quadrant_and_region(region_numbers, is_pterygoid):
         '27': 'Lower left lateral incisor',
         '28': 'Lower left central incisor',
     }
-    if(is_pterygoid):
-        print('hey its peeterygoid ante!!')
-        # insert the below two into the above mapping
-        #         '19': 'Right Pterigyod region',
-        # '29': 'Left Pterigyod region'
-
+    if is_pterygoid:
+        print('Its pterygoid!!')
+        pt_region_names = {'19': 'Right Pterigyod region','29': 'Left Pterigyod region'}
+        region_names.update(pt_region_names)
     region_name = region_names.get(region_number, 'Dispersed Regions')
     return quadrant, region_name
 
@@ -176,5 +172,3 @@ def render_save_report(template,attributes, report_filepath):
             parent = table._element.getparent()
             parent.remove(table._element)
     template.save(report_filepath)
-
-
