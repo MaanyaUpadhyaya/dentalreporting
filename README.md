@@ -96,6 +96,8 @@ Step 3: The user is asked to choose between three options as to how the region n
 
 Step 4: On proper entry of all the required details the report is generated and saved under a folder named as "reports"
 
+<img src="readme/cb5.png" alt="Image" width = "400">
+
 ## UI Mock:
 
 <a name="ui"></a>
