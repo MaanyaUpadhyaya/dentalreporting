@@ -86,13 +86,10 @@ Step 1: When the command python main.py is executed the following shall appear o
 
 <img src="readme/cb2.png" alt="Image" width = "400">
 
-Step 2: The user is asked to enter the Region of Intrest.A pop up window with the standard FDI teeth numbering shall appear for reference in case of error.
+Step 2: The user is asked to enter the type of report to be generated.
 
-<img src="readme/cb3.png" alt="Image" width = "400">
 
-Step 3: The user is asked they want to generate a pre filled report. On typing 'yes' a report shall be generated and saved in docx format in the same folder under the patient's name along with date and time.
-
-<img src="readme/cb5.png" alt="Image" width = "400">
+Step 3: The user is asked to choose between three options as to how the region numbers are to be considered.In case of any error a pop up window with the standard representation of the FDI teeth number
 
 ## UI Mock:
 
