@@ -17,7 +17,7 @@ def parse_region_numbers(report_type, rn, is_pterygoid):
             end_index = region_nums.index(int(rn[1]))
             rn = region_nums[start_index:end_index + 1] 
         else:
-            rn = rn.split(',')
+            rn = list(filter(None, map(str.strip, rn.split(','))))
             rn = [int(num) for num in rn]
     except ValueError:
         print("Invalid input. Please provide valid region numbers.")
