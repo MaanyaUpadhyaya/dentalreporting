@@ -82,17 +82,17 @@ In the console based version of the software, the user shall interact via the co
 
 Step 1: When the command python main.py is executed the following shall appear on the terminal.The user is asked if he/she wants to to select a file, if yes a file dialog shall open for choosing the patient's file.
 
-<img src="./cb1.png" alt="Image" width = "400">
+<img src="readme/cb1.png" alt="Image" width = "400">
 
-<img src="./cb2.png" alt="Image" width = "400">
+<img src="readme/cb2.png" alt="Image" width = "400">
 
 Step 2: The user is asked to enter the Region of Intrest.A pop up window with the standard FDI teeth numbering shall appear for reference in case of error.
 
-<img src="./cb3.png" alt="Image" width = "400">
+<img src="readme/cb3.png" alt="Image" width = "400">
 
 Step 3: The user is asked they want to generate a pre filled report. On typing 'yes' a report shall be generated and saved in docx format in the same folder under the patient's name along with date and time.
 
-<img src="./cb5.png" alt="Image" width = "400">
+<img src="readme/cb5.png" alt="Image" width = "400">
 
 ## UI Mock:
 
@@ -102,22 +102,22 @@ Lets look into the workflow in detail
 
 Step 1: When we run the python file, an UI opens like this
 
-<img src="./ui1.png" alt="Image" height="500" width = "600">
+<img src="readme/ui1.png" alt="Image" height="500" width = "600">
 
 Step 2: User is requested to chose the patient folder from a file dialog 
 
-<img src="./pic3.png" alt="Image" height="400" width = "400">
+<img src="readme/pic3.png" alt="Image" height="400" width = "400">
 
 A confirmation is asked for the patient's name and details within the same form. Click on confirm to move to the next step.
 
 Step 3: Using the picture as the reference, choose the region of interest.
 
-<img src="./ui2.png" alt="Image" height="500" width = "600">
+<img src="readme/ui2.png" alt="Image" height="500" width = "600">
 
 Step 4: When your region of interst is confirmed let’s move towards the final strep of generating a pre-filled report.
 Click on Generate Report button and the report generated will be in .docx format, editable further by the technicians/doctor.
 
-<img src="./ui3.png" alt="Image" height="500" width = "600">
+<img src="readme/ui3.png" alt="Image" height="500" width = "600">
 
 Step 5: Once the report is generated you can return to the home page via the home button or close the UI.
 
@@ -127,7 +127,7 @@ Step 5: Once the report is generated you can return to the home page via the hom
 
 The final pictorial view of the steps for the generation of the pre-filled report is as follows:
 
-<img src="./pic2.png" alt="Image" height="400" width = "400">
+<img src="readme/pic2.png" alt="Image" height="400" width = "400">
 
 
 
