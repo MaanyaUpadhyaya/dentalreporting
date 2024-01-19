@@ -6,18 +6,19 @@ from docxtpl import DocxTemplate
 import json
 from docx import Document
 import numpy as np
-
 from docx.shared import RGBColor
 import dicomreader
 
 def validate_region_number(region_number, is_pterygoid):
+    region_number = str(region_number)
     valid_region_numbers = [
         '11', '12', '13', '14', '15', '16', '17', '18',
         '21', '22', '23', '24', '25', '26', '27', '28'
     ]
     if is_pterygoid:
         valid_region_numbers.extend(['19','29'])
-    return valid_region_numbers
+    return region_number in valid_region_numbers
+
 def get_quadrant_and_region(region_numbers, is_pterygoid):
     quadrant = 'NA'
     region_number = 'NA'
@@ -52,10 +53,8 @@ def get_quadrant_and_region(region_numbers, is_pterygoid):
 def get_dcm_attriutes(folder):
     dcm_file = dicomreader.get_dicom_file(folder)
     json_file = 'middle.json'  
-
     with open(json_file) as f:
         json_data = json.load(f)
-
     attribute_tags = json_data['content']
     attributes = dicomreader.read_dcm_attributes(dcm_file, attribute_tags)
     ds = pydicom.read_file(dcm_file)

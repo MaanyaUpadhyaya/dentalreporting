@@ -30,8 +30,8 @@ if len(sys.argv) != 1:
 else:
     selected_folder = mainuiprompts.prompt_patient_folder()
     print("\nPlease enter following details:")
+
     is_pterygoid = mainuiprompts.get_typeof_study()
-    print(is_pterygoid)
     region_numbers = mainuiprompts.region_table_prompts(is_pterygoid)
     num_of_implants = mainuiprompts.prompt_num_of_implants()
 
@@ -58,6 +58,7 @@ attributes = dentalreport.virtual_implant_table(attributes, num_of_implants)
 images = imageprocess.find_panoramic_view_image(selected_folder)
 
 if images != None:
+    images = images.convert('RGB')
     images.save("panaroma.jpg")    
 else:
     print("No panaromic image was found! Image not inserted!")

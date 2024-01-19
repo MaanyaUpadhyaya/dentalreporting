@@ -44,7 +44,7 @@ def find_panoramic_view_image(selected_folder):
         if os.path.exists(folder_path):
             for root, _, files in os.walk(folder_path):
                 for file_name in files:
-                    if file_name.lower() == "panaromic view.jpg" or file_name.lower() == "panoramic view.png":
+                    if file_name.lower() == "panaromic view.jpg" or file_name.lower() == "panoramic view.png" or file_name.lower() == "panaroma.png" or file_name.lower() == "panaroma.jpg":
                         image_path = os.path.join(root, file_name)
                         image = Image.open(image_path)
                         if image:
