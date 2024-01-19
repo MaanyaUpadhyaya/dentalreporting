@@ -88,8 +88,11 @@ Step 1: When the command python main.py is executed the following shall appear o
 
 Step 2: The user is asked to enter the type of report to be generated.
 
+<img src="readme/cb3.png" alt="Image" width = "400">
 
-Step 3: The user is asked to choose between three options as to how the region numbers are to be considered.In case of any error a pop up window with the standard representation of the FDI teeth number
+Step 3: The user is asked to choose between three options as to how the region numbers are to be considered.In case of any error a pop up window with the standard representation of the FDI teeth number.
+
+<img src="readme/cb4.png" alt="Image" width = "400">
 
 ## UI Mock:
 
