@@ -82,7 +82,7 @@ In the console based version of the software, the user shall interact via the co
 
 Step 1: When the command python main.py is executed the following shall appear on the terminal.The user is asked if he/she wants to to select a file, if yes a file dialog shall open for choosing the patient's file.
 
-<img src="./cb1.png" alt="Image" width = "400">
+<img src=".readme/cb1.png" alt="Image" width = "400">
 
 <img src="./cb2.png" alt="Image" width = "400">
 
