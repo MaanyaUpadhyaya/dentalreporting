@@ -48,6 +48,7 @@ attributes['date_now'] = dentalreport.get_current_date()
 attributes['PatientAge'] = dentalreport.find_patient_age(attributes['PatientBirthDate'])
 attributes['PixelSpacing'] = pixels 
 
+
 mapping = dentalreport.allocate_indices(is_pterygoid)
 
 attributes = dentalreport.initial_mapping(attributes,mapping)

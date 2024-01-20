@@ -1,7 +1,6 @@
 import numpy as np
 import cv2
 import os
-import mainuiprompts
 from PIL import Image
 
 from PIL import ImageDraw, Image

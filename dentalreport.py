@@ -4,9 +4,6 @@ from docxtpl import InlineImage
 from docx.shared import RGBColor
 from docxtpl import DocxTemplate
 import json
-from docx import Document
-import numpy as np
-from docx.shared import RGBColor
 import dicomreader
 
 def validate_region_number(region_number, is_pterygoid):
@@ -24,7 +21,7 @@ def get_quadrant_and_region(region_numbers, is_pterygoid):
     region_number = 'NA'
     if len(region_numbers) == 1:
             quadrant = int((int(region_numbers[0]) - 1) / 8) + 1
-            print(quadrant)
+            region_number = str(region_numbers[0])
     region_names = {
         '11': 'Upper right third molar',
         '12': 'Upper right second molar',
