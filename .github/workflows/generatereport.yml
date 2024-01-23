@@ -38,7 +38,7 @@ jobs:
         pip install pylibjpeg-libjpeg
     - name: Run python code
       run: |
-        python main.py -f "${{ inputs.input-file }}" -rn "${{ inputs.region_numbers }}" -im 3 -pt 1 -rt 1
+        python main.py -f "${{ inputs.input-file }}" -rn "${{ inputs.region_numbers }}" -im '3' -pt 1 -rt 1
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add .
