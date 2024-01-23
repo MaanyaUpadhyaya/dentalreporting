@@ -1,5 +1,5 @@
-	pip install pydicom
-        pip install datetime
-        pip install docxtpl
-        pip install numpy
-        pip install argparse
+pydicom
+datetime
+docxtpl
+numpy
+argparse
