@@ -4,3 +4,4 @@ docxtpl
 numpy
 argparse
 Pillow
+opencv-python
