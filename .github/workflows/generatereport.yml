@@ -2,20 +2,6 @@ name: GenerateReport
 
 on:
   workflow_dispatch:
-    inputs:
-      folder_name:
-             description: 'selected_folder:'
-             required: true
-             default: ""
-      region_number:
-             description: 'Region_number:'
-             required: true
-             default: ""
-      implant_number:
-             description: 'Num_of_implants:'
-             required: true
-             default: ""
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -44,7 +30,7 @@ jobs:
         pip install pylibjpeg-libjpeg
     - name: Run python code
       run: |
-        python main.py -f ${{github.event.inputs.folder_name}} -rn ${{github.event.inputs.region_number}} -im ${{github.event.inputs.implant_number}}
+        python main.py -f ${{./KAMALA}} -rn ${{28}} -im ${{3}
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add .
