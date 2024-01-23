@@ -30,7 +30,7 @@ jobs:
         pip install pylibjpeg-libjpeg
     - name: Run python code
       run: |
-        python main.py -f ${{./KAMALA}} -rn ${{28}} -im ${{3}
+        python main.py -f ${{./KAMALA}} -rn ${{28}} -im ${{3} -pt{{}} -rt{{}}
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add .
