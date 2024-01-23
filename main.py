@@ -12,7 +12,7 @@ import argparse
 if len(sys.argv) != 1:
     parser = argparse.ArgumentParser()
     parser.add_argument('-f', dest='selected_folder', help='folder name')
-    parser.add_argument('-rn', dest='region_number', help='region number')
+    parser.add_argument('-rn', dest='region_numbers', help='region numbers')
     parser.add_argument('-im', dest='num_of_implants', help='virtual implant number')
     parser.add_argument('-pt', dest='is_pterygoid', help='Study type: \n1. Regular \n2.Pterygoid')
     parser.add_argument('-rt', dest='report_type', help='Report type: \n1. Select a single region number \n2. Select a range of region numbers \n3. Select multiple non-consecutive region numbers')
