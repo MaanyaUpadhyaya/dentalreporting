@@ -153,7 +153,7 @@ def begin_end_mapping(attributes, n, region_number,mapping):
 def virtual_implant_table(attributes, num_implants):
     print(f"num_implants: {num_implants}")
     virtual_implant_table = []
-    for i in range(1, num_implants + 1):
+    for i in range(1, num_implants):
         key = "V" + str(i)
         value = "V" + str(i)
     virtual_implant_table.append({str(key): str(value)})
