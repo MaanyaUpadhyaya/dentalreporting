@@ -151,6 +151,7 @@ def begin_end_mapping(attributes, n, region_number,mapping):
     return attributes
 
 def virtual_implant_table(attributes, num_implants):
+    num_implants = str(num_implants)
     virtual_implant_table = [{"V" + str(i): "V" + str(i) for i in range(1, num_implants+1)}]
     attributes['implants'] = virtual_implant_table
     attributes['num_implants'] = num_implants
