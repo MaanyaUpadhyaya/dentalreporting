@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
 jobs:
   build:
-    runs-on: ubuntus-latest
+    runs-on: windows-latest
     strategy:
       matrix:
         python-version: ["3.11"]
