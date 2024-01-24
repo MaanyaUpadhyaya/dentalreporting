@@ -166,7 +166,6 @@ def render_save_report(template,attributes, report_filepath):
     for key, value in to_fill_in.items():
         image = InlineImage(template, value)
         attributes[key] = image
-    print(f'Before rendering: {attributes}')
     template.render(attributes)
     for table_index, table in enumerate(template.tables):
         cell_text = table.cell(0, 0).text
