@@ -152,11 +152,11 @@ def begin_end_mapping(attributes, n, region_number,mapping):
 
 def virtual_implant_table(attributes, num_implants):
     num_implants = int(num_implants)
-    virtual_implant_table = []
-    for i in range(1, num_implants):
+    virtual_implant_table = {}
+    for i in range(1, num_implants+1):
         key = "V" + str(i)
         value = "V" + str(i)
-    virtual_implant_table.append({str(key): str(value)})
+        virtual_implant_table[str(key)] = str(value)
     attributes['implants'] = virtual_implant_table
     attributes['num_implants'] = num_implants
     return attributes
@@ -166,7 +166,6 @@ def render_save_report(template,attributes, report_filepath):
     for key, value in to_fill_in.items():
         image = InlineImage(template, value)
         attributes[key] = image
-    print(f'Before rendering: {attributes}')
     template.render(attributes)
     for table_index, table in enumerate(template.tables):
         cell_text = table.cell(0, 0).text
