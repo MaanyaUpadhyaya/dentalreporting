@@ -9,6 +9,7 @@ def parse_region_numbers(report_type, rn, is_pterygoid):
         rn = [int(rn)]
     elif report_type == 2:
         region_nums = [18, 17, 16, 15, 14, 13, 12, 11, 21, 22, 23, 24, 25, 26, 27, 28]
+        rn = list(filter(None, map(str.strip, rn.split(','))))
         if is_pterygoid:
             region_nums.insert(0, 19)
             region_nums.insert(17, 29)
@@ -84,9 +85,9 @@ def region_table_prompts(is_pterygoid):
     elif choice == 2:
         start_region = input("Enter the starting region number: ")
         end_region = input("Enter the ending region number: ")
-        region_numbers = [start_region, end_region]
+        region_numbers = f'{start_region},{end_region}'
     else:
-        region_numbers = input("Enter the multiple non-consecutive region numbers: ")
+        region_numbers = input("Enter the region numbers seperated by comma (ex:11,28): ")
        
     if region_numbers == "":
         print("\n Invalid input. Please provide valid region numbers.")
