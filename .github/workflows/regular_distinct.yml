@@ -1,4 +1,4 @@
-name: Test_regular_Single
+name: Test_regular_Distinct
 on:
   workflow_dispatch:
 jobs:
