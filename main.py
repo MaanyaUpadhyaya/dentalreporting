@@ -19,8 +19,8 @@ if len(sys.argv) != 1:
     args = parser.parse_args()
 
     selected_folder = args.selected_folder
-    report_type = args.report_type
-    region_numbers = mainuiprompts.parse_region_numbers(args.report_type, args.region_numbers, args.is_pterygoid)
+    report_type = int(args.report_type)
+    region_numbers = mainuiprompts.parse_region_numbers(report_type, args.region_numbers, args.is_pterygoid)
     num_of_implants = args.num_of_implants
     is_pterygoid = args.is_pterygoid == '2'
     print(f'Selected Folder: {selected_folder}')
