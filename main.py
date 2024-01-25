@@ -22,11 +22,10 @@ if len(sys.argv) != 1:
     report_type = int(args.report_type)
     is_pterygoid = args.is_pterygoid == '2'
     num_of_implants = args.num_of_implants
-    region_numbers = mainuiprompts.parse_region_numbers(report_type, args.region_numbers, is_pterygoid)
     print(f'Selected Folder: {selected_folder}')
     print(f'Region Number: {region_numbers}')
     print(f'Number of Implants: {num_of_implants}')
-    
+    region_numbers = mainuiprompts.parse_region_numbers(report_type, args.region_numbers, is_pterygoid)
 
 else:
     selected_folder = mainuiprompts.prompt_patient_folder()
