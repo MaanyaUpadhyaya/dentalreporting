@@ -1,4 +1,4 @@
-name: GenerateReport
+name: Test_regular_Single
 on:
   workflow_dispatch:
 jobs:
