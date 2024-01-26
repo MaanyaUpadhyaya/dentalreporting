@@ -59,12 +59,6 @@ attributes = dentalreport.virtual_implant_table(attributes, num_of_implants)
         
 images = imageprocess.find_panoramic_view_image(selected_folder)
 
-if images != None:
-    images = images.convert('RGB')
-    images.save("panaroma.jpg")    
-else:
-    print("No panaromic image was found! Image not inserted!")
-
 template_file = 'report_template.docx' 
          
 filename = dicomreader.get_patinet_name(ds)
@@ -74,7 +68,7 @@ report_filepath = os.path.join(folder, report_filename)
         
 template = DocxTemplate(template_file)
 
-dentalreport.render_save_report(template,attributes,report_filepath)
+dentalreport.render_save_report(template,attributes,images,report_filepath)
 
 print("\nSuccessfully generated report!!")
 print("\tAt:reports")

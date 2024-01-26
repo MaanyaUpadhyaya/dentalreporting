@@ -161,11 +161,14 @@ def virtual_implant_table(attributes, num_implants):
     attributes['num_implants'] = num_implants
     return attributes
 
-def render_save_report(template,attributes, report_filepath):
-    to_fill_in = {'img_pan':'panaroma.jpg'}
-    for key, value in to_fill_in.items():
-        image = InlineImage(template, value)
-        attributes[key] = image
+def render_save_report(template, attributes, panoramic_image_path, report_filepath):
+    if panoramic_image_path == None:
+        print("No panoramic image was found! Report will be generated without it.")
+    else:   
+        to_fill_in = {'img_pan': panoramic_image_path}
+        for key, value in to_fill_in.items():
+            image = InlineImage(template, value)
+            attributes[key] = image
     template.render(attributes)
     for table_index, table in enumerate(template.tables):
         cell_text = table.cell(0, 0).text
@@ -173,3 +176,5 @@ def render_save_report(template,attributes, report_filepath):
             parent = table._element.getparent()
             parent.remove(table._element)
     template.save(report_filepath)
+
+       

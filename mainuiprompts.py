@@ -31,6 +31,7 @@ def select_patient_folder():
     confirm = input("\nSelect a patient folder? (yes/no): ").lower()
     selected_folder = get_selected_folder()
     if confirm == 'no' or confirm == 'n':
+        print(confirm)
         print("Thank you for using Autofill Reports!!\n")
         exit()
     elif selected_folder == "":
