@@ -1,4 +1,4 @@
-name: GenerateReport
+name: Test_regular_Range
 on:
   workflow_dispatch:
 jobs:
